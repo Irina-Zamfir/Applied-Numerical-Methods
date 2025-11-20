@@ -1,0 +1,130 @@
+Numerical Methods - Homework 1
+
+Task 1 - Markov is coming: 
+
+    This task implements finding the shortest path through a labyrinth
+using probabilities.
+
+Functions and implementation:
+    parse_labyrinth : I read the labyrinth matrix using fscanf (I transpose it
+        according to the functionalities of the fscanf function);
+    get_adjacency_matrix : I build the adjacency matrix of the states;
+        Using 2 for loops I traverse the labyrinth matrix and check the walls of each
+        cell using the bitget function. If I find a wall I fill the adjacency
+        matrix with 1 and I make sure to check if the win or lose state can be
+        reached from that cell, filling the matrix appropriately;
+        Finally, I make the matrix sparse;
+    get_link_matrix : I build the probability matrix;
+        Similar to the approach for the adjacency matrix.
+        Additionally, I calculate the number of states that can be reached and instead of 1,
+        I put in the matrix 1/(number of states);
+    get_Jacobi_parameters : I take the parameters for the iterative Jacobi method;
+        Matrix G is the probability matrix between states (without win and lose);
+        Vector c is the win column from the probability matrix (without the win and lose rows);
+        perform_iterative : Jacobi iterative method
+        I calculate the vector containing the winning probabilities for
+        each state, using the iteration formula x(k) = G*x(k-1) + c;
+    heuristic_greedy : I find the shortest winning path;
+        I initialize a logical vector that keeps track of whether the states have been visited or not;
+        In the while loop: I take the last state added to the path; if its probability is 1, I have found
+        the path and I exit the loop; Otherwise I find the unvisited neighbors of the cell
+        If the cell has no unvisited neighbors I remove it from the vector, otherwise I put in
+        the path vector the neighbor with the highest winning probability;
+    decode_path : I decode the path, without the win state, and I keep the row
+        and column indices in a matrix with 2 columns;
+
+Resources:
+    https://www.mathworks.com/help/matlab/ref/fscanf.html
+    https://www.youtube.com/watch?v=cLo2UOBU5yY
+    https://www.mathworks.com/help/matlab/ref/bitget.html
+    https://www.mathworks.com/help/matlab/ref/sparse.html
+    https://www.mathworks.com/matlabcentral/answers/413182-create-a-logical-vector
+    https://www.mathworks.com/help/matlab/ref/end.html
+    https://www.mathworks.com/help/matlab/ref/double.isempty.html
+    https://www.mathworks.com/help/matlab/ref/find.html 
+
+
+
+Task 2 - Linear Regression: 
+
+    This task implements a supervised learning algorithm, linear
+regression, and applies different methods for generating predictions, calculating
+errors and the behavior of the cost function.
+
+Functions and implementation:
+    parse_data_set_file : I read the data from a file using fgetl;
+        I split the lines and save the corresponding elements in Y and in InitMat;
+        prepare_for_regression : I build featureMat and replace all string
+        elements with numbers according to the requirement;
+        I keep track of the max number of columns for each line and at the end I assign this
+        dimension to FeatureMax;
+    linear_regression_cost_function : I calculate the error / value of the cost function
+        I go through FeatMat by rows and calculate the predicted value for functionalities
+        and calculate the sum for error according to the formulas given in the requirement;
+        parse_csv_file : I read the data from the csv file with fgetl (for the header) and with textscan (for the data);
+        I save the first column in Y and the rest of the columns in InitMax
+    gradient_descent : I calculate the weights vector, with the gradient descent method,
+        following the formulas given in the requirement;
+        For each predictor (j=1:n), I take each line from FeatMat and calculate the partial derivative
+        of the cost function with respect to Theta(j);
+        Then I subtract from Theta(j) the partial derivative * alpha; At the end I add a zero
+        in the weights vector;
+    normal_equation : I calculate the weights vector, with the conjugate gradient method,
+        following the formulas and the given pseudo code;
+        Initialize x0, x, r0, r1, v1, v2 and square the tolerance;
+        For each iteration I apply the formulas for calculating the current solution and if
+        the error is smaller than tol, I exit the loop; Finally Theta is the solution
+        saved in x with a 0 in front;
+    lasso_regression_cost : I calculate the value of the regularized cost function,
+        using L1 regularization (Lasso Regression) and following the formulas from the requirement;
+        ridge_regression_cost_function : I calculate the value of the regularized cost function,
+        using L2 regularization (Ridge Regression) and following the formulas from the requirement;
+
+Resources:
+    https://www.mathworks.com/help/matlab/ref/fgetl.html
+    https://www.mathworks.com/help/matlab/ref/textscan.html
+
+
+
+Task 3 - MNIST 101 
+
+    This task implements a multi-class classification model using
+a simple neural network. Using a set of images containing handwritten 
+digits, ways in which neural networks can learn to recognize complex 
+visual patterns are explored.
+
+Functions:
+    load_dataset : loads into memory the data for training and testing from a
+        .mat file, using load;
+    split_dataset : splits the received data set into the training set and the
+        test set, according to a given parameter 'percent';
+    initialize_weights : returns a matrix of parameters with random elements;
+    cost_function : the value of the cost function and the gradient vector are calculated,
+        according to the formulas given in the statement;
+    predict_classes : the prediction vector for the examples from
+        the data set is returned, using Forward propagation;
+    sigmoid : auxiliary function for the activation function;
+
+Implementation:
+    I read the data set from the .mat file and split it into training data and
+test data. I initialize the parameter matrix for working with the input,
+output and hidden layers. In the cost function, I split the weights matrix
+into Theta1 and Theta2, 2 matrices with the help of which I calculate the value
+of the cost function and the gradients. In their calculation I apply Forward Propagation
+and Backpropagation, I calculate the errors of the layers and finally I apply the 
+calculation formula for the value of the cost function and for the gradients. Also, I 
+add the regularization term. Then, I calculate the prediction vector, applying Forward 
+Propagation.
+
+Resources:
+
+Resurse: 
+    https://www.mathworks.com/matlabcentral/answers/1598294-how-to-load-and-import-a-mat-file
+    https://www.mathworks.com/help/matlab/ref/randperm.html
+    https://www.mathworks.com/help/matlab/ref/double.reshape.html
+    https://www.geeksforgeeks.org/what-is-forward-propagation-in-neural-networks/ 
+        - pt a aprofunda conceptul de forward propagation 
+    https://en.wikipedia.org/wiki/Backpropagation
+        - pt a intelege mai bine conceptul de backpropagation 
+    https://en.wikipedia.org/wiki/Neural_network_(machine_learning)
+        - pt aprofundare 
